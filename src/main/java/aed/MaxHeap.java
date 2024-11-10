@@ -3,17 +3,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class MaxHeap<T> {
-    private ArrayList<T> heap;
-    private Comparator<T> comparator;
+    protected ArrayList<T> heap;
+    protected Comparator<T> comparator;
 
-    public MaxHeap(Comparator<T> comparator) {
-        this.heap = new ArrayList<>();
+    public MaxHeap(Comparator<T> comparator, ArrayList<T> elementos) {
+        this.heap = elementos;
         this.comparator = comparator;
     }
 
     public void apilar(T elemento) {
         heap.add(elemento);
-        heapifyUp(heap.size() - 1);
+        siftUp(heap.size() - 1);
     }
 
     public T desapilarMax() {
@@ -24,7 +24,7 @@ public class MaxHeap<T> {
         T ultimoElemento = heap.remove(heap.size() - 1);
         if (!heap.isEmpty()) {
             heap.set(0, ultimoElemento);
-            heapifyDown(0);
+            siftDown(0);
         }
         return elementoEliminado;
     }
@@ -36,7 +36,7 @@ public class MaxHeap<T> {
         return heap.get(0);
     }
 
-    private void heapifyUp(int index) {
+    private void siftUp(int index) {
         T elemento = heap.get(index);
         while (index > 0) {
             int padreIndex = (index - 1) / 2;
@@ -50,7 +50,7 @@ public class MaxHeap<T> {
         heap.set(index, elemento);
     }
 
-    private void heapifyDown(int index) {
+    private void siftDown(int index) {
         T elemento = heap.get(index);
         while (index < heap.size() / 2) {
             int hijoIzquierdoIndex = 2 * index + 1;
