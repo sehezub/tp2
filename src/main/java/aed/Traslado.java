@@ -3,6 +3,8 @@ package aed;
 public class Traslado {
     
     int id;
+    int indiceAntiguos = -1;
+    int indiceRedituables = -1;
     int origen;
     int destino;
     int gananciaNeta;

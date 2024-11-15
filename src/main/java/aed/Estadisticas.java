@@ -59,43 +59,43 @@ public class Estadisticas {
         for (int i = 0; i < cantidadCiudadaes; i++) {this.ciudadesMayorPerdida.add(i);
         }
     }
-    public void registrarTraslados(Traslado[] traslados){
-        // Por cada traslado, actualizamos las estadisticas y el heap superavit
-        // O(|traslados|*log|C|)
-        for (Traslado traslado : traslados) {
-            // Recalculamos las estadisticas de las ciudades del traslado
-            // O(1) (ya que las funciones del arraylist add y clear son O(1))
-            Ciudad ciudadOrigen = ciudades.get(traslado.origen);
-            Ciudad ciudadDestino = ciudades.get(traslado.destino);
-            ciudadOrigen.agregarGanancia(traslado.gananciaNeta);
-            ciudadDestino.agregarPerdida(traslado.gananciaNeta);
-            this.gananciaTotal += traslado.gananciaNeta;
-            this.trasladosTotales++;
+    public void despacharTraslado(Traslado traslado){
+        // Para el traslado dado actualizamos las estadisticas y el heap superavit
+        // O(log|C|)
 
-            if (ciudadOrigen.getGanancia() == this.maxGanancia && traslado.gananciaNeta > 0){
-                this.ciudadesMayorGanancia.add(ciudadOrigen.obtenerId());
-            } else if (ciudadOrigen.getGanancia() > this.maxGanancia) {
-                this.maxGanancia = ciudadOrigen.getGanancia();
-                this.ciudadesMayorGanancia.clear();
-                this.ciudadesMayorGanancia.add(ciudadOrigen.obtenerId());
-            }
+        // Recalculamos las estadisticas de las ciudades del traslado
+        // O(1) (ya que las funciones del arraylist add y clear son O(1))
+        Ciudad ciudadOrigen = ciudades.get(traslado.origen);
+        Ciudad ciudadDestino = ciudades.get(traslado.destino);
+        ciudadOrigen.agregarGanancia(traslado.gananciaNeta);
+        ciudadDestino.agregarPerdida(traslado.gananciaNeta);
+        this.gananciaTotal += traslado.gananciaNeta;
+        this.trasladosTotales++;
 
-            if (ciudadDestino.getPerdida() == this.maxPerdida && traslado.gananciaNeta > 0){
-                this.ciudadesMayorPerdida.add(ciudadDestino.obtenerId());
-            } else if (ciudadDestino.getPerdida() > this.maxPerdida) {
-                this.maxPerdida = ciudadDestino.getPerdida();
-                this.ciudadesMayorPerdida.clear();
-                this.ciudadesMayorPerdida.add(ciudadDestino.obtenerId());
-            }
-
-            // actualizamos el heap superavit
-            // O(log|C|)
-            actualizarHeapSuperavit(ciudadOrigen.obtenerId());
-            actualizarHeapSuperavit(ciudadDestino.obtenerId());
+        if (ciudadOrigen.getGanancia() == this.maxGanancia && traslado.gananciaNeta > 0){
+            this.ciudadesMayorGanancia.add(ciudadOrigen.obtenerId());
+        } else if (ciudadOrigen.getGanancia() > this.maxGanancia) {
+            this.maxGanancia = ciudadOrigen.getGanancia();
+            this.ciudadesMayorGanancia.clear();
+            this.ciudadesMayorGanancia.add(ciudadOrigen.obtenerId());
         }
+
+        if (ciudadDestino.getPerdida() == this.maxPerdida && traslado.gananciaNeta > 0){
+            this.ciudadesMayorPerdida.add(ciudadDestino.obtenerId());
+        } else if (ciudadDestino.getPerdida() > this.maxPerdida) {
+            this.maxPerdida = ciudadDestino.getPerdida();
+            this.ciudadesMayorPerdida.clear();
+            this.ciudadesMayorPerdida.add(ciudadDestino.obtenerId());
+        }
+
+        // actualizamos el heap superavit de las ciudades con superavit cambiado
+        // O(log|C|)
+        actualizarHeapSuperavit(ciudadOrigen.obtenerId());
+        actualizarHeapSuperavit(ciudadDestino.obtenerId());
+
     }
     private void actualizarHeapSuperavit(int idCiudad){
-        // Actualizamos el heap superavit
+        // Actualizamos el heap superavit de la ciudad con idCiudad
         // O(log|C|)
         siftDown(ciudades.get(idCiudad).getIndiceSuperavit());
         siftUp(ciudades.get(idCiudad).getIndiceSuperavit());

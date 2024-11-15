@@ -3,44 +3,74 @@ package aed;
 import java.util.ArrayList;
 
 public class BestEffort {
-    //Completar atributos privados
+    // Estadisticas se encarga de devolver los datos correspondientes a las ciudades
+    private Estadisticas estadisticas;
+    private MaxHeapRedituables heapRedituables;
+    private MinHeapAntiguos heapAntiguos;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
-        // Implementar
+        this.estadisticas = new Estadisticas(cantCiudades);
+        this.heapRedituables = new MaxHeapRedituables(traslados);
+        this.heapAntiguos = new MinHeapAntiguos(traslados);
     }
 
     public void registrarTraslados(Traslado[] traslados){
-        // Implementar
+        for (Traslado traslado : traslados) {
+            heapAntiguos.insertar(traslado);
+            heapRedituables.insertar(traslado);
+        }
     }
 
     public int[] despacharMasRedituables(int n){
-        // Implementar
-        return null;
+        int [] traslados = new int[n];
+        // O(n * (log |T| + log |C|))
+        for (int i = 0; i < n; i++) {
+            // O(log |T|)
+            Traslado traslado = heapRedituables.extraerMasRedituable();
+
+            if (traslado == null) {break;}
+            traslados[i] = traslado.id;
+            // O(log |T|)
+            heapAntiguos.eliminar(traslado);
+
+            // O(|C|)
+            estadisticas.despacharTraslado(traslado);
+        }
+        return traslados;
     }
 
     public int[] despacharMasAntiguos(int n){
-        // Implementar
-        return null;
+        int [] traslados = new int[n];
+        // O(n * (log |T| + log |C|))
+        for (int i = 0; i < n; i++) {
+            // O(log |T|)
+            Traslado traslado = heapAntiguos.extraerMasAntiguo();
+
+            if (traslado == null) {break;}
+            traslados[i] = traslado.id;
+            // O(log |T|)
+            heapRedituables.eliminar(traslado);
+
+            // O(|C|)
+            estadisticas.despacharTraslado(traslado);
+        }
+        return traslados;
     }
 
     public int ciudadConMayorSuperavit(){
-        // Implementar
-        return 0;
+        return estadisticas.ciudadConMayorSuperavit();
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        // Implementar
-        return null;
+        return estadisticas.ciudadesConMayorGanancia();
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        // Implementar
-        return null;
+        return estadisticas.ciudadesConMayorPerdida();
     }
 
     public int gananciaPromedioPorTraslado(){
-        // Implementar
-        return 0;
+        return estadisticas.gananciaPromedioPorTraslado();
     }
     
 }
