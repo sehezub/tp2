@@ -79,6 +79,7 @@ public class MinHeapAntiguos {
         // O(log |T|)
         heap.add(traslado);
         int indice = heap.size() - 1;
+        traslado.indiceAntiguos = indice;
         int indicePadre = indice / 2;
 
         while (indice > 0 && comparar(heap.get(indicePadre), heap.get(indice)) > 0){

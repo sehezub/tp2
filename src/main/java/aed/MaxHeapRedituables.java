@@ -70,6 +70,7 @@ public class MaxHeapRedituables {
     public void insertar(Traslado traslado) {
         heap.add(traslado);
         int indice = heap.size() - 1;
+        traslado.indiceRedituables = indice;
         int indicePadre = (indice - 1) / 2;
 
         while (indice > 0 && comparar(heap.get(indicePadre), heap.get(indice)) < 0) {

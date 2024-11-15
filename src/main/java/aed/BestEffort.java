@@ -23,6 +23,7 @@ public class BestEffort {
 
     public int[] despacharMasRedituables(int n){
         int [] traslados = new int[n];
+
         // O(n * (log |T| + log |C|))
         for (int i = 0; i < n; i++) {
             // O(log |T|)
@@ -33,7 +34,7 @@ public class BestEffort {
             // O(log |T|)
             heapAntiguos.eliminar(traslado);
 
-            // O(|C|)
+            // O(log |C|)
             estadisticas.despacharTraslado(traslado);
         }
         return traslados;
@@ -51,7 +52,7 @@ public class BestEffort {
             // O(log |T|)
             heapRedituables.eliminar(traslado);
 
-            // O(|C|)
+            // O(log |C|)
             estadisticas.despacharTraslado(traslado);
         }
         return traslados;
