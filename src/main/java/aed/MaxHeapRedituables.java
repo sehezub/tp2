@@ -24,23 +24,23 @@ public class MaxHeapRedituables {
         while (indice < heap.size()) {
             int indiceHijoIzquierdo = 2 * indice + 1;
             int indiceHijoDerecho = 2 * indice + 2;
-            int indiceMayor;
+            int indiceMenor;
 
-            if (indiceHijoIzquierdo < heap.size() && comparar(heap.get(indiceHijoIzquierdo), heap.get(indice)) > 0) {
-                indiceMayor = indiceHijoIzquierdo;
+            if (indiceHijoIzquierdo < heap.size() && comparar(heap.get(indiceHijoIzquierdo), heap.get(indice)) < 0) {
+                indiceMenor = indiceHijoIzquierdo;
             } else {
-                indiceMayor = indice;
+                indiceMenor = indice;
             }
 
-            if (indiceHijoDerecho < heap.size() && comparar(heap.get(indiceHijoDerecho), heap.get(indiceMayor)) > 0) {
-                indiceMayor = indiceHijoDerecho;
+            if (indiceHijoDerecho < heap.size() && comparar(heap.get(indiceHijoDerecho), heap.get(indiceMenor)) < 0) {
+                indiceMenor = indiceHijoDerecho;
             }
 
-            if (indiceMayor == indice) {
+            if (indiceMenor == indice) {
                 return;
             }
-            intercambiarRedituables(indice, indiceMayor);
-            indice = indiceMayor;
+            intercambiarRedituables(indice, indiceMenor);
+            indice = indiceMenor;
         }
     }
 
@@ -57,11 +57,9 @@ public class MaxHeapRedituables {
     }
 
     public Traslado extraerMasRedituable() {
-        if (heap.isEmpty()) {
-            return null;
-        }
+        if (heap.isEmpty()) {return null;}
         Traslado redituable = heap.get(0);
-        heap.set(0, heap.get(heap.size() - 1));
+        intercambiarRedituables(0, heap.size() - 1);
         heap.remove(heap.size() - 1);
         maxHeapify(0);
         return redituable;
@@ -90,12 +88,12 @@ public class MaxHeapRedituables {
             intercambiarRedituables(indice, heap.size() - 1);
             heap.remove(heap.size() - 1);
             int ind = heap.size() - 1;
-            int indicePadre = (ind - 1) / 2;
+            int indicePadre = (ind-1) / 2;
 
             while (ind > 0 && comparar(heap.get(indicePadre), heap.get(ind)) < 0) {
                 intercambiarRedituables(ind, indicePadre);
                 ind = indicePadre;
-                indicePadre = (ind - 1) / 2;
+                indicePadre = (ind-1) / 2;
             }
         }
     }

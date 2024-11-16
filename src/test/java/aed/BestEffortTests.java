@@ -40,7 +40,22 @@ public class BestEffortTests {
             assertTrue(encontrado, "No se encontró el elemento " +  e1 + " en el arreglo " + s2.toString());
         }
     }
-
+    @Test
+    void test(){
+        Traslado[] litTraslados = new Traslado[] {
+            new Traslado(1, 0, 1, 100, 10),
+            new Traslado(2, 0, 1, 400, 20),
+            new Traslado(3, 3, 4, 500, 50),
+            new Traslado(4, 4, 3, 500, 11),
+            new Traslado(5, 1, 0, 1000, 40),
+            new Traslado(6, 1, 0, 1000, 41),
+            new Traslado(7, 6, 3, 2000, 42)
+        };
+        MaxHeapRedituables maxHeapRedituables = new MaxHeapRedituables(litTraslados);
+        MinHeapAntiguos minHeapAntiguos = new MinHeapAntiguos(litTraslados);
+        assertEquals(7, maxHeapRedituables.extraerMasRedituable().id);
+        assertEquals(1, minHeapAntiguos.extraerMasAntiguo().id);
+    }
     @Test
     void despachar_con_mas_ganancia_de_a_uno(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);

@@ -30,18 +30,20 @@ public class MinHeapAntiguos {
     private void  minHeapify(int indice){
         // Hacemos un sift down para mantener la propiedad de heap
         // O(log |T|)
-        while (indice < heap.size()){
+        while (indice < heap.size()) {
             int indiceHijoIzquierdo = 2 * indice + 1;
             int indiceHijoDerecho = 2 * indice + 2;
-            int indiceMenor ;
+            int indiceMenor;
 
-            if (indiceHijoIzquierdo < heap.size() && comparar(heap.get(indiceHijoIzquierdo),heap.get(indice)) < 0)
+            if (indiceHijoIzquierdo < heap.size() && comparar(heap.get(indiceHijoIzquierdo), heap.get(indice)) < 0) {
                 indiceMenor = indiceHijoIzquierdo;
-            else
+            } else {
                 indiceMenor = indice;
+            }
 
-            if (indiceHijoDerecho < heap.size() && comparar(heap.get(indiceHijoDerecho), heap.get(indiceMenor)) < 0)
+            if (indiceHijoDerecho < heap.size() && comparar(heap.get(indiceHijoDerecho), heap.get(indiceMenor)) < 0) {
                 indiceMenor = indiceHijoDerecho;
+            }
 
             if (indiceMenor == indice) {
                 return;
@@ -68,7 +70,7 @@ public class MinHeapAntiguos {
         // O(log |T|)
         if (heap.isEmpty()) {return null;}
         Traslado antiguo = heap.get(0);
-        heap.set(0, heap.get(heap.size() - 1));
+        intercambiarAntiguos(0, heap.size() - 1);
         heap.remove(heap.size() - 1);
         minHeapify(0);
         return antiguo;
@@ -102,12 +104,12 @@ public class MinHeapAntiguos {
             intercambiarAntiguos(indice, heap.size() - 1);
             heap.remove(heap.size() - 1);
             int ind = heap.size() - 1;
-            int indicePadre = ind / 2;
+            int indicePadre = (ind-1) / 2;
 
             while (ind > 0 && comparar(heap.get(indicePadre), heap.get(ind)) > 0) {
                 intercambiarAntiguos(ind, indicePadre);
                 ind = indicePadre;
-                indicePadre = ind / 2;
+                indicePadre = (ind-1) / 2;
             }
         }
     }

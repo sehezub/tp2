@@ -74,7 +74,8 @@ public class Estadisticas {
 
         if (ciudadOrigen.getGanancia() == this.maxGanancia && traslado.gananciaNeta > 0){
             this.ciudadesMayorGanancia.add(ciudadOrigen.obtenerId());
-        } else if (ciudadOrigen.getGanancia() > this.maxGanancia) {
+        }
+        if (ciudadOrigen.getGanancia() > this.maxGanancia && traslado.gananciaNeta > 0) {
             this.maxGanancia = ciudadOrigen.getGanancia();
             this.ciudadesMayorGanancia.clear();
             this.ciudadesMayorGanancia.add(ciudadOrigen.obtenerId());
@@ -82,7 +83,8 @@ public class Estadisticas {
 
         if (ciudadDestino.getPerdida() == this.maxPerdida && traslado.gananciaNeta > 0){
             this.ciudadesMayorPerdida.add(ciudadDestino.obtenerId());
-        } else if (ciudadDestino.getPerdida() > this.maxPerdida) {
+        }
+        if (ciudadDestino.getPerdida() > this.maxPerdida && traslado.gananciaNeta > 0) {
             this.maxPerdida = ciudadDestino.getPerdida();
             this.ciudadesMayorPerdida.clear();
             this.ciudadesMayorPerdida.add(ciudadDestino.obtenerId());
