@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // Clase que se encarga de ordenar los traslados por más antiguos en un heap
 public class MinHeapAntiguos {
-    private ArrayList<Traslado> heap;
+     ArrayList<Traslado> heap;
     public MinHeapAntiguos(Traslado[] traslados){
         // Al inicializar el sistema, ingresa una lista de traslados en forma desordenada
         // Usamos construirMinHeap para ordenarlos por más antiguos
@@ -82,35 +82,34 @@ public class MinHeapAntiguos {
         heap.add(traslado);
         int indice = heap.size() - 1;
         traslado.indiceAntiguos = indice;
-        int indicePadre = indice / 2;
+        int indicePadre = (indice-1) / 2;
 
         while (indice > 0 && comparar(heap.get(indicePadre), heap.get(indice)) > 0){
             intercambiarAntiguos(indice, indicePadre);
             indice = indicePadre;
-            indicePadre = indice / 2;
+            indicePadre = (indice-1) / 2;
         }
     }
 
     public void eliminar(Traslado traslado) {
         // Eliminamos un traslado del heap y lo ordenamos
         // O(log |T|)
-        int indice = traslado.indiceAntiguos;
-        if (comparar(heap.get(indice), heap.get((heap.size()) - 1)) < 0) {
-            intercambiarAntiguos(indice, heap.size() - 1);
-            heap.remove(heap.size() - 1);
-            minHeapify(indice);
-        }
-        else {
-            intercambiarAntiguos(indice, heap.size() - 1);
-            heap.remove(heap.size() - 1);
-            int ind = heap.size() - 1;
-            int indicePadre = (ind-1) / 2;
+        int index = traslado.indiceAntiguos;
+        intercambiarAntiguos(traslado.indiceAntiguos, heap.size() - 1);
+        heap.remove(heap.size() - 1);
+        if (index == heap.size()) {return;}
+        traslado = heap.get(index);
 
-            while (ind > 0 && comparar(heap.get(indicePadre), heap.get(ind)) > 0) {
-                intercambiarAntiguos(ind, indicePadre);
-                ind = indicePadre;
-                indicePadre = (ind-1) / 2;
+        while (index > 0) {
+            int padreIndex = (index - 1) / 2;
+            Traslado padre = heap.get(padreIndex);
+            if (comparar(padre, traslado) < 0) {
+                break;
             }
+            intercambiarAntiguos(index, padreIndex);
+            index = padreIndex;
         }
+        traslado.indiceAntiguos = index;
+        minHeapify(index);
     }
 }

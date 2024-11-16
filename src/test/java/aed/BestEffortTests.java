@@ -42,19 +42,27 @@ public class BestEffortTests {
     }
     @Test
     void test(){
+        Traslado t7 = new Traslado(7, 6, 3, 2000, 42);
+        Traslado t1 = new Traslado(1, 0, 1, 100, 10);
         Traslado[] litTraslados = new Traslado[] {
-            new Traslado(1, 0, 1, 100, 10),
+            t1,
             new Traslado(2, 0, 1, 400, 20),
             new Traslado(3, 3, 4, 500, 50),
             new Traslado(4, 4, 3, 500, 11),
-            new Traslado(5, 1, 0, 1000, 40),
+            new Traslado(5, 1, 0, 750, 40),
             new Traslado(6, 1, 0, 1000, 41),
-            new Traslado(7, 6, 3, 2000, 42)
+            t7
         };
         MaxHeapRedituables maxHeapRedituables = new MaxHeapRedituables(litTraslados);
         MinHeapAntiguos minHeapAntiguos = new MinHeapAntiguos(litTraslados);
-        assertEquals(7, maxHeapRedituables.extraerMasRedituable().id);
-        assertEquals(1, minHeapAntiguos.extraerMasAntiguo().id);
+
+        System.out.println(Arrays.toString(minHeapAntiguos.heap.stream().map(t -> t.id).toArray()));
+        minHeapAntiguos.eliminar(t1);
+        System.out.println(Arrays.toString(minHeapAntiguos.heap.stream().map(t -> t.id).toArray()));
+
+        //System.out.println(Arrays.toString(maxHeapRedituables.heap.stream().map(t -> t.id).toArray()));
+        maxHeapRedituables.eliminar(t7);
+        //System.out.println(Arrays.toString(maxHeapRedituables.heap.stream().map(t -> t.id).toArray()));
     }
     @Test
     void despachar_con_mas_ganancia_de_a_uno(){

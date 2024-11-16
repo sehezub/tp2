@@ -3,7 +3,7 @@ package aed;
 import java.util.ArrayList;
 
 public class MaxHeapRedituables {
-    private ArrayList<Traslado> heap;
+     ArrayList<Traslado> heap;
 
     public MaxHeapRedituables(Traslado[] traslados) {
         this.heap = new ArrayList<>();
@@ -79,22 +79,22 @@ public class MaxHeapRedituables {
     }
 
     public void eliminar(Traslado traslado) {
-        int indice = traslado.indiceRedituables;
-        if (comparar(heap.get(indice), heap.get(heap.size() - 1)) > 0) {
-            intercambiarRedituables(indice, heap.size() - 1);
-            heap.remove(heap.size() - 1);
-            maxHeapify(indice);
-        } else {
-            intercambiarRedituables(indice, heap.size() - 1);
-            heap.remove(heap.size() - 1);
-            int ind = heap.size() - 1;
-            int indicePadre = (ind-1) / 2;
+        int index = traslado.indiceRedituables;
+        intercambiarRedituables(traslado.indiceRedituables, heap.size() - 1);
+        heap.remove(heap.size() - 1);
+        if (index == heap.size()) {return;}
+        traslado = heap.get(index);
 
-            while (ind > 0 && comparar(heap.get(indicePadre), heap.get(ind)) < 0) {
-                intercambiarRedituables(ind, indicePadre);
-                ind = indicePadre;
-                indicePadre = (ind-1) / 2;
+        while (index > 0) {
+            int padreIndex = (index - 1) / 2;
+            Traslado padre = heap.get(padreIndex);
+            if (comparar(padre, traslado) > 0) {
+                break;
             }
+            intercambiarRedituables(index, padreIndex);
+            index = padreIndex;
         }
+        traslado.indiceRedituables = index;
+        maxHeapify(index);
     }
 }
